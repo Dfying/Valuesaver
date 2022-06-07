@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <ComboBox x:Name="port" Margin="10,10,627.6,360"/>
+        <Button x:Name="connect" Click="connect_Click" Content="Connect" Margin="90,65,627.6,306"/>
+        <Button x:Name="disconnect" Click="disconnect_Click" Content="Disconnect" Margin="10,65,708.6,306"/>
+        <Label x:Name="label" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="794" Height="50"/>
     </Grid>
 </Window>
