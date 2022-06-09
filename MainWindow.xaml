@@ -5,11 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Valuesaver"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        FontFamily="Roboto" FontSize="12"
+        Title="MainWindow" Height="400" Width="400">
     <Grid>
-        <ComboBox x:Name="port" Margin="10,10,627.6,360"/>
-        <Button x:Name="connect" Click="connect_Click" Content="Connect" Margin="90,65,627.6,306"/>
-        <Button x:Name="disconnect" Click="disconnect_Click" Content="Disconnect" Margin="10,65,708.6,306"/>
-        <Label x:Name="label" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="794" Height="50"/>
+        <Grid> 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <!--
+                        데이터 리셋버튼, 측정 반복회수설정, 파일형식, 파일경로 설정, 파일명 결정 등 추가기능 부여 필요
+            -->
+            <StackPanel Grid.Column="0" Margin="10,10,5,10" Orientation="Vertical">
+                <ComboBox x:Name="port" Height="50"/>
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="connect" Grid.Column="0" Click="connect_Click" Content="Connect" Height="30" Margin="0,0,5,0"/>
+                    <Button x:Name="disconnect" Grid.Column="1" Click="disconnect_Click" Content="Disconnect" Height="30" Margin="5,0,0,0"/>
+                </Grid>
+                <TextBlock x:Name="label" Height="15" Foreground="Red" Text="{Binding FallbackValue=연결}"/>
+            </StackPanel>
+            <Button x:Name="datasaver" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="10,10,5,10" Height="40"/>
+            <Button Content="Reset" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,10" Height="40" Width="40"/>
+            
+            
+            
+            
+            <!-- 
+            Preview 형식 / CTRL+C, CTRL+V 대응가능토록 할 것
+            -->
+            <Grid Grid.Column="1" Margin="5,10,10,10">
+                <TextBox x:Name="receivedata" Text="asdfasdfasdf" TextWrapping="Wrap" Cursor="None"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
