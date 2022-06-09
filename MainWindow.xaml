@@ -30,8 +30,8 @@
                 </Grid>
                 <TextBlock x:Name="label" Height="15" Foreground="Red" Text="{Binding FallbackValue=연결}"/>
             </StackPanel>
-            <Button x:Name="datasaver" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="10,10,5,10" Height="40"/>
-            <Button Content="Reset" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,10" Height="40" Width="40"/>
+            <Button x:Name="Check" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="10,10,5,10" Height="40"/>
+            <Button Content="Reset" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,10" Height="40" Width="40"/>
             
             
             
@@ -40,7 +40,7 @@
             Preview 형식 / CTRL+C, CTRL+V 대응가능토록 할 것
             -->
             <Grid Grid.Column="1" Margin="5,10,10,10">
-                <TextBox x:Name="receivedata" Text="asdfasdfasdf" TextWrapping="Wrap" Cursor="None"/>
+                <TextBox x:Name="dtrcv" Text="asdfasdfasdf" TextWrapping="Wrap" Cursor="None"/>
             </Grid>
         </Grid>
     </Grid>

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Valuesaver
 {
@@ -30,6 +31,7 @@ namespace Valuesaver
         public const string inStream = "inStream";
 
         public const string MA = "MA";
+        
 
         string receivedData;
 
@@ -64,7 +66,7 @@ namespace Valuesaver
 
                 port.IsEnabled = false;
                 label.Text = "연결됨";
-                receivedata.Text = "Start";
+                dtrcv.Text = "Start";
             }
             else
             {
@@ -92,6 +94,11 @@ namespace Valuesaver
             if (_port.IsOpen)
             {
                 _port.Write(MA);
+                if(receivedData == null)
+                {
+                    dtrcv.Text += '\n'+"데이터 미수신";
+                }
+                dtrcv.Text += string.Format("{0:X2}", receivedData);
             }
             else
             {
@@ -101,8 +108,30 @@ namespace Valuesaver
         
         private void _portDataReceived(object sender, EventArgs e)
         {
+            int readCnt = 0;
+            byte recvByte = 0;
+            byte[] recvBuf = new byte[1024];
+
+            //수신 데이터 문자수 확인
+            string strRecData = string.Empty;
+
+            //수신 값을 모두 읽어 온다.
+            strRecData = _port.ReadExisting();
+
+            //수신된 문자열을 파일에 저장한다.
+
+            //UI Cross thread invoke
+            
+            readCnt = _port.Read(recvBuf, 0, 1024);
+            recvByte = recvBuf[readCnt - 1];
+            dtrcv.Text.Contains(readCnt.ToString());
+
             receivedData = _port.ReadExisting();
-            receivedata.Text += string.Format("{0:X2}", receivedData);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            dtrcv.Clear();
         }
     }
 }
