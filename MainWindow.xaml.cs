@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.Threading;
-using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace Valuesaver
 {
@@ -24,25 +24,32 @@ namespace Valuesaver
     public partial class MainWindow : Window
     {
         public SerialPort _port = new SerialPort();
+
+
         public const string ETX = "\r\n";
         public const char STX = (char)0x02;
         public const char CR = (char)0x0D;
         public const char LF = (char)0x0A;
-        public const string inStream = "inStream";
+        public const string inStream = "";
 
-        public const string MA = "MA";
-        
+        public const string _MA = "MA"; // HEAD 1, 2 측정 명령 
+        public const string _MS = "MS,01"; // HEAD 1 측정
+        public const string _Zero = "VS,01";
 
-        string receivedData;
+        public string MA = _MA + CR;
+        public string Zero = _Zero + CR;
+
 
         public MainWindow()
         {
             InitializeComponent();
+
             string[] Portno = SerialPort.GetPortNames();
             foreach (string portnum in Portno)
             {
                 port.Items.Add(portnum);
             }
+
         }
 
         private void connect_Click(object sender, RoutedEventArgs e)
@@ -57,11 +64,14 @@ namespace Valuesaver
                 }
 
                 _port.PortName = port.SelectedItem.ToString();
-                _port.BaudRate = 9600;
+                _port.BaudRate = 38400;
                 _port.DataBits = 8;
                 _port.StopBits = StopBits.One;
                 _port.Parity = Parity.None;
+                _port.Handshake = 0;
+                _port.ReadTimeout = 100;
                 _port.DataReceived += new SerialDataReceivedEventHandler(_portDataReceived);
+
                 _port.Open();
 
                 port.IsEnabled = false;
@@ -72,10 +82,43 @@ namespace Valuesaver
             {
                 label.Text = "이미 연결됨";
             }
+        }
+
+        private void _portDataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                string ReceiveData;
+                ReceiveData = _port.ReadExisting();
+
+                dtrcv.Text = ReceiveData;
+
+                // # case 1
+                //dtrcv.Text = string.Format("{0:X2}", ReceiveData);
+
+                // # case 2
+                //dtrcv.Text = Convert.ToString(ReceiveData);
+
+                // # case 3
+                //dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
+                //byte[] ASCII = Encoding.ASCII.GetBytes(ReceiveData);
+
+            }));
 
         }
 
-        private void disconnect_Click(object sender, RoutedEventArgs e)
+        private void datasaver(object s, EventArgs e)
+        {
+            string ReceiveData = string.Empty;
+            ReceiveData = _port.ReadExisting();
+            //dtrcv.Text.Contains(string.Format("{0:X2}", ReceiveData));
+            //dtrcv.Text = string.Format("{0:X2}", ReceiveData);
+            byte[] ASCII = Encoding.ASCII.GetBytes(ReceiveData);
+            dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
+
+        }
+
+        private void disconnect_Click(object sender, EventArgs e)
         {
             if (_port.IsOpen == true)
             {
@@ -91,42 +134,21 @@ namespace Valuesaver
 
         private void datasaver_Click(object sender, RoutedEventArgs e)
         {
-            if (_port.IsOpen)
+            if (!_port.IsOpen)
             {
-                _port.Write(MA);
-                if(receivedData == null)
-                {
-                    dtrcv.Text += '\n'+"데이터 미수신";
-                }
-                dtrcv.Text += string.Format("{0:X2}", receivedData);
+                label.Text = "연결필요";
+                return;
             }
             else
             {
-                return;
+                byte[] ASCII = Encoding.ASCII.GetBytes(MA);
+                _port.Write(MA + CR);
             }
         }
-        
-        private void _portDataReceived(object sender, EventArgs e)
+
+        private void setZero_Click(object sender, RoutedEventArgs e)
         {
-            int readCnt = 0;
-            byte recvByte = 0;
-            byte[] recvBuf = new byte[1024];
 
-            //수신 데이터 문자수 확인
-            string strRecData = string.Empty;
-
-            //수신 값을 모두 읽어 온다.
-            strRecData = _port.ReadExisting();
-
-            //수신된 문자열을 파일에 저장한다.
-
-            //UI Cross thread invoke
-            
-            readCnt = _port.Read(recvBuf, 0, 1024);
-            recvByte = recvBuf[readCnt - 1];
-            dtrcv.Text.Contains(readCnt.ToString());
-
-            receivedData = _port.ReadExisting();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

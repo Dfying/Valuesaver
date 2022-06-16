@@ -29,8 +29,14 @@
                     <Button x:Name="disconnect" Grid.Column="1" Click="disconnect_Click" Content="Disconnect" Height="30" Margin="5,0,0,0"/>
                 </Grid>
                 <TextBlock x:Name="label" Height="15" Foreground="Red" Text="{Binding FallbackValue=연결}"/>
+            <Grid>
+                <StackPanel>
+                    <Button x:Name="Check" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="0,5" Height="40"/>
+                    <Button x:Name="setZero" Click="setZero_Click" Content="Zero" VerticalAlignment="Center" Margin="0,5" Height="40"/>
+                </StackPanel>
+                
+            </Grid>
             </StackPanel>
-            <Button x:Name="Check" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="10,10,5,10" Height="40"/>
             <Button Content="Reset" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,10" Height="40" Width="40"/>
             
             
