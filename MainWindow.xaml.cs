@@ -36,7 +36,7 @@ namespace Valuesaver
         public const string _MS = "MS,01"; // HEAD 1 측정
         public const string _Zero = "VS,01";
 
-        public string MA = _MA + CR;
+        public string MA = _MS + CR;
         public string Zero = _Zero + CR;
 
 
@@ -91,19 +91,9 @@ namespace Valuesaver
                 string ReceiveData;
                 ReceiveData = _port.ReadExisting();
 
-                dtrcv.Text = ReceiveData;
-
-                // # case 1
-                //dtrcv.Text = string.Format("{0:X2}", ReceiveData);
-
-                // # case 2
-                //dtrcv.Text = Convert.ToString(ReceiveData);
-
-                // # case 3
-                //dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
-                //byte[] ASCII = Encoding.ASCII.GetBytes(ReceiveData);
-
+                dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
             }));
+
 
         }
 
@@ -111,9 +101,6 @@ namespace Valuesaver
         {
             string ReceiveData = string.Empty;
             ReceiveData = _port.ReadExisting();
-            //dtrcv.Text.Contains(string.Format("{0:X2}", ReceiveData));
-            //dtrcv.Text = string.Format("{0:X2}", ReceiveData);
-            byte[] ASCII = Encoding.ASCII.GetBytes(ReceiveData);
             dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
 
         }
@@ -141,8 +128,7 @@ namespace Valuesaver
             }
             else
             {
-                byte[] ASCII = Encoding.ASCII.GetBytes(MA);
-                _port.Write(MA + CR);
+                _port.Write(MA);
             }
         }
 
