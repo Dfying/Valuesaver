@@ -34,10 +34,15 @@ namespace Valuesaver
 
         public const string _MA = "MA"; // HEAD 1, 2 측정 명령 
         public const string _MS = "MS,01"; // HEAD 1 측정
-        public const string _Zero = "VS,01";
+        public const string _Zero01 = "VS,01"; // 
+        public const string _Zero02 = "VS,02";
+        public const string _ZeroAll = "VM,110000000000";
 
         public string MA = _MS + CR;
-        public string Zero = _Zero + CR;
+        public string Zero01 = _Zero01 + CR;
+        public string Zero02 = _Zero02 + CR;
+        public string SetZero = _ZeroAll + CR;
+
 
 
         public MainWindow()
@@ -89,9 +94,10 @@ namespace Valuesaver
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 string ReceiveData;
+                string dt;
                 ReceiveData = _port.ReadExisting();
-
-                dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
+                dt = string.Empty;
+                dt = string.Format("{0:X2}", ReceiveData);
             }));
 
 
@@ -99,9 +105,6 @@ namespace Valuesaver
 
         private void datasaver(object s, EventArgs e)
         {
-            string ReceiveData = string.Empty;
-            ReceiveData = _port.ReadExisting();
-            dtrcv.Text = dtrcv.Text + string.Format("{0:X2}", ReceiveData);
 
         }
 
@@ -134,7 +137,9 @@ namespace Valuesaver
 
         private void setZero_Click(object sender, RoutedEventArgs e)
         {
-
+            _port.Write(SetZero);
+            Thread.Sleep(10);
+            // _port.Write(); ## 오토제로 종료 명령어 넣어볼것
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
