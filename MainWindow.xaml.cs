@@ -43,7 +43,7 @@ namespace Valuesaver
         public string Zero02 = _Zero02 + CR;
         public string SetZero = _ZeroAll + CR;
 
-
+        string dt;
 
         public MainWindow()
         {
@@ -93,19 +93,16 @@ namespace Valuesaver
         {
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                string ReceiveData;
-                string dt;
-                ReceiveData = _port.ReadExisting();
+                string ReceiveData = _port.ReadExisting();
                 dt = string.Empty;
                 dt = string.Format("{0:X2}", ReceiveData);
+                
             }));
-
-
         }
 
         private void datasaver(object s, EventArgs e)
         {
-
+            dtrcv.Text = dtrcv.Text + dt;
         }
 
         private void disconnect_Click(object sender, EventArgs e)
@@ -127,24 +124,33 @@ namespace Valuesaver
             if (!_port.IsOpen)
             {
                 label.Text = "연결필요";
+                if(dt == null)
+                {
+                    dtrcv.Text = "afa";
+                }
                 return;
             }
             else
             {
                 _port.Write(MA);
+                
             }
         }
 
         private void setZero_Click(object sender, RoutedEventArgs e)
         {
             _port.Write(SetZero);
-            Thread.Sleep(10);
-            // _port.Write(); ## 오토제로 종료 명령어 넣어볼것
+            Thread.Sleep(10);            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             dtrcv.Clear();
+        }
+
+        private void exportdata_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

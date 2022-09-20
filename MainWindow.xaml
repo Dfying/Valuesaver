@@ -8,13 +8,13 @@
         FontFamily="Roboto" FontSize="12"
         Title="MainWindow" Height="400" Width="400">
     <Grid>
-        <Grid> 
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            
-            
+
+
             <!--
                         데이터 리셋버튼, 측정 반복회수설정, 파일형식, 파일경로 설정, 파일명 결정 등 추가기능 부여 필요
             -->
@@ -29,24 +29,45 @@
                     <Button x:Name="disconnect" Grid.Column="1" Click="disconnect_Click" Content="Disconnect" Height="30" Margin="5,0,0,0"/>
                 </Grid>
                 <TextBlock x:Name="label" Height="15" Foreground="Red" Text="{Binding FallbackValue=연결}"/>
-            <Grid>
-                <StackPanel>
-                    <Button x:Name="Check" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="0,5" Height="40"/>
-                    <Button x:Name="setZero" Click="setZero_Click" Content="Zero" VerticalAlignment="Center" Margin="0,5" Height="40"/>
-                </StackPanel>
+                <Grid>
+                    <StackPanel>
+                        <Button x:Name="Check" Click="datasaver_Click" Content="Check" VerticalAlignment="Center" Margin="0,5" Height="40"/>
+                        <Button x:Name="setZero" Click="setZero_Click" Content="Zero" VerticalAlignment="Center" Margin="0,5" Height="40"/>
+                    </StackPanel>
+
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Rrepeatable No." Margin="5,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Product No. " Margin="5,0"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="10" TextAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="3" TextAlignment="Center"/>
+                </Grid>
                 
-            </Grid>
             </StackPanel>
-            <Button Content="Reset" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,10" Height="40" Width="40"/>
             
-            
-            
-            
+            <Grid VerticalAlignment="Bottom" Margin="10,0,5,0">
+                <StackPanel>
+                    
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="exportdata" Click="exportdata_Click" Content="Export" HorizontalAlignment="Left" Margin="0" Height="40" Width="120"/>
+                    <Button Content="Reset" Click="Button_Click" HorizontalAlignment="Right" Margin="5" Height="40" Width="55"/>
+                </StackPanel>
+            </Grid>
+
             <!-- 
-            Preview 형식 / CTRL+C, CTRL+V 대응가능토록 할 것
+            Preview 형식 / CTRL+C, CTRL+V 대응가능토록 할 것 : 필요없음.
             -->
-            <Grid Grid.Column="1" Margin="5,10,10,10">
-                <TextBox x:Name="dtrcv" Text="asdfasdfasdf" TextWrapping="Wrap" Cursor="None"/>
+            <Grid Grid.Column="1" Margin="5,10,10,5">
+                <TextBox x:Name="dtrcv" Text="Wellcome to Bug World" TextWrapping="Wrap" Cursor="None"/>
             </Grid>
         </Grid>
     </Grid>
